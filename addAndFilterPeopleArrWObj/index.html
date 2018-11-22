@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+    <style>
+        .btn {
+            margin: 3px 1px;
+        }
+        .btn:hover {
+            color:white;
+            background: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <form id="form">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input id="name" class="form-control" type="text" name="name" placeholder="Enter a Name" required autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="surname">Surname:</label>
+                        <input id="surname" class="form-control" type="text" name="surname" placeholder="Enter a Surname" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="age">Age:</label>
+                        <input id="age" class="form-control" type="text" name="age" placeholder="Enter Age" required autocomplete="off">
+                    </div>
+                    <button class="btn btn-success" type="submit">Add</button>
+                </form>
+            </div>
+            <div class="col-md-5">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Age</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tableTBody">
+                        <!--Filled by JS-->
+                    </tbody>
+                </table>
+                <button class="btn" onclick="resetTable()">Clear Table</button>
+            </div>
+            <div class="col-md-5">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Surname</th>
+                        <th>Age</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tBodyFiltered">
+                    <!--Filled by JS-->
+                    </tbody>
+                </table>
+                <hr>
+                <button id="filter_kids" class="btn" onclick="myFunction()">Filter minors</button>
+                <button id="filter_yng_adults"class="btn" onclick="myFunction()">Filter Young Adults (18 -  till 30)</button>
+                <button id="filter_adults" class="btn" onclick="myFunction()">Filter Adults (30 -  till 65)</button>
+                <button id="filter_seniors" class="btn" onclick="myFunction()">Filter Seniors (From 65)</button>
+                <hr>
+                <button class="btn" onclick="resetFilter()">Reset Filter</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    'use strict';
+    var list = [];
+
+    function Person(first, last, age) {
+        this.firstName = first;
+        this.lastName = last;
+        this.age = age;
+    }
+    $("#form").submit(function (e) {
+        e.preventDefault();
+        let person = new Person(
+            $("input[name = 'name']").val(),
+            $("input[name = 'surname']").val(),
+            $("input[name = 'age']").val());
+        list.push(person);
+        document.getElementById("form").reset();
+
+        let tableTbodyHtml = "";
+        for (let i = 0; i < list.length; i++) {
+            tableTbodyHtml += "<tr>" +
+                "<td>"+list[i].firstName+"</td>" +
+                "<td>"+list[i].lastName+"</td>" +
+                "<td>"+list[i].age+"</td>" +
+                "</tr>";
+        }
+        document.getElementById("tableTBody").innerHTML = tableTbodyHtml;
+    });
+    function resetTable() {
+        document.getElementById("tableTBody").innerHTML = '';
+        list = [];
+    }
+    function resetFilter() {
+        document.getElementById("tBodyFiltered").innerHTML = '';
+    }
+/* Filter */
+    document.getElementById('filter_kids').onclick = function () {
+        function checkKids(obj) {
+            return obj.age < 18;
+        }
+        let filtered = list.filter(checkKids);
+        myFunction(filtered);
+    };
+
+    document.getElementById('filter_yng_adults').onclick = function () {
+        function checkYoungAdults(obj) {
+            return obj.age >= 18 && obj.age <= 29;
+        }
+        let filtered = list.filter(checkYoungAdults);
+        myFunction(filtered);
+    };
+
+    document.getElementById('filter_adults').onclick = function () {
+        function checkAdults(obj) {
+            return obj.age >= 30 && obj.age <= 64;
+        }
+        let filtered = list.filter(checkAdults);
+        myFunction(filtered);
+    };
+
+    document.getElementById('filter_seniors').onclick = function () {
+        function checkSeniors(obj) {
+            return obj.age >= 65;
+        }
+        let filtered = list.filter(checkSeniors);
+        myFunction(filtered);
+    };
+
+    function myFunction(filtered) {
+        let tBodyFiltered = "";
+        for (let i = 0; i < filtered.length; i++) {
+            tBodyFiltered += "<tr>" +
+                "<td>"+filtered[i].firstName.toUpperCase()+"</td>" +
+                "<td>"+filtered[i].lastName.toUpperCase()+"</td>" +
+                "<td>"+filtered[i].age+"</td>" +
+                "</tr>";
+        }
+        document.getElementById("tBodyFiltered").innerHTML = tBodyFiltered;
+    }
+</script>
+</body>
+</html>

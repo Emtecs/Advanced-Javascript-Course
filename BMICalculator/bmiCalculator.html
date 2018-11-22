@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BMI Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+    <link rel="stylesheet" href="bmiCalculator.css">
+</head>
+<body class="container">
+    <div data-ng-app="myApp" data-ng-controller="myCtrl" >
+        <div id="bmi" class="row">
+            <div class="col-md-6">
+                <form data-ng-submit="listBMI();">
+                    <div class="form-group row">
+                        <div class="col-sm-2 col-md-6">
+                            <label class="" for="name">Your Name <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="col-sm-5 col-md-6">
+                            <input type="text" name="name" class="form-control" id="name" required data-ng-model="newPerson.name">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="weight">Your weight in kilograms <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" value="0" name="weight" class="form-control " id="weight" required data-ng-model="newPerson.weight">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-md-6">
+                            <label for="height">Your height in centimeters <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" value="0" name="height" class="form-control " id="height" required data-ng-model="newPerson.height">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Calculate Your BMI</button>
+                </form>
+                <button class="btn btn-primary" data-ng-click="clearList()">Clear calculated list</button>
+            </div>
+            <div class="col-md-6 text-center">
+                <h4>BMI Categories:</h4>
+                <p class="text-danger">Underweight =< 18.5 points</p>
+                <p class="text-success">Normal weight = 18.5 – 24.9 points</p>
+                <p class="text-warning">Overweight = 25 – 29.9 points</p>
+                <p class="text-danger">Obesity = BMI of 30 points or greater</p>
+                <p class="text-left">
+                    <b>Take note:</b>
+                    <br>
+                    <i>
+                        These numbers do not consider Your build (athletic, heavy-lifter and etc.), age,
+                        bone mass and other things, which may result in inaccurate BMI points and Your body status.
+                    </i>
+                    <br>
+                    <b>
+                        Use this as simple guidelines. Talk with Your family doctor about Your healthy weight.
+                        Some fat here and there does not hurt. But too much or lack of it (like with many other things)
+                        what makes it unhealthy.
+                    </b>
+                </p>
+            </div>
+            <div id="bmi_Table" class="col-md-12">
+                <ul class="text-center" data-ng-repeat="person in table">
+                    <li>
+                        <b>{{person.name}}</b>:
+                        <br>
+                        While You weight <b>{{person.weight }}</b>kg and are <b>{{person.height / 100}}</b>m tall
+                        <br>
+                        Your BMI is:
+                        <b data-ng-class="{'text-danger': person.BMItype === 'underweight' || person.BMItype === 'obesity',
+                                            'text-success': person.BMItype === 'normal',
+                                             'text-warning': person.BMItype === 'overweight'}">
+                            {{person.BMI}}
+                        </b>
+                        points and You
+                        <b data-ng-class="{'text-danger': person.BMItype === 'underweight' || person.BMItype === 'obesity',
+                                            'text-success': person.BMItype === 'normal',
+                                             'text-warning': person.BMItype === 'overweight'}">
+                            {{person.BMItext}}
+                        </b>
+                        .
+                        <br>
+                        <br>
+                        <b>Tip:</b>
+                        <br>
+                        {{person.BMItip}}
+                        <hr>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+<script>
+    (function () {
+        'use strict';
+        var app = angular.module("myApp", []);
+        app.controller("myCtrl", function($scope) {
+
+            $scope.table = [];
+            $scope.newPerson = {};
+            $scope.clearList = function myFunc() {
+
+                $scope.table = [];
+            };
+            $scope.listBMI= function() {
+
+                $scope.result = null;
+                $scope.result = ($scope.newPerson.weight / Math.pow($scope.newPerson.height / 100, 2)).toFixed(2);
+
+                $scope.newPerson.BMI = $scope.result;
+                switch (true) {
+                    case $scope.newPerson.BMI <=18.5:
+                        $scope.newPerson.BMItype = 'underweight';
+                        $scope.newPerson.BMItext = 'are Underweight';
+                        $scope.newPerson.BMItip = 'Being underweight is also unhealthy! You must eat more food.';
+                        break;
+                    case $scope.newPerson.BMI > 18.5 && $scope.newPerson.BMI <= 24.9:
+                        $scope.newPerson.BMItype = 'normal';
+                        $scope.newPerson.BMItext = 'have Normal weight';
+                        $scope.newPerson.BMItip = 'Good work! Keep eating healthy and exercising!';
+                        break;
+                    case $scope.newPerson.BMI >=25 && $scope.newPerson.BMI < 29.9:
+                        $scope.newPerson.BMItype = 'overweight';
+                        $scope.newPerson.BMItext = 'are Overweight';
+                        $scope.newPerson.BMItip = 'It is a bit worrisome. Try to do more exercise and watch what You eat.';
+                        break;
+                    case $scope.newPerson.BMI > 30:
+                        $scope.newPerson.BMItype = 'obesity';
+                        $scope.newPerson.BMItext = 'are Obese';
+                        $scope.newPerson.BMItip = 'That is very unhealthy! Fix your eating habits and start exercising!';
+                        break;
+                }
+                $scope.table.push($scope.newPerson);
+                $scope.newPerson = {};
+
+            };
+        });
+
+    })();
+
+</script>
+
+</body>
+</html>
