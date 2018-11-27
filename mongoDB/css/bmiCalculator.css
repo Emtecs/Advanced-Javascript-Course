@@ -1,0 +1,25 @@
+p {
+    line-height: 2;
+}
+#bmi {
+    margin-top: 100px;
+}
+
+#bmi_Table {
+    margin-top: 50px;
+}
+.text-danger {
+    color: red;
+}
+.text-success {
+    color: green;
+}
+.text-warning {
+    color: #ffb74b;
+}
+.btn {
+    margin-bottom: 20px;
+}
+li {
+    list-style-type: none;
+}

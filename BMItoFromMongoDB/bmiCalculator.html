@@ -7,13 +7,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
-    <link rel="stylesheet" href="bmiCalculator.css">
+    <link rel="stylesheet" href="css/bmiCalculator.css">
 </head>
 <body class="container">
     <div data-ng-app="myApp" data-ng-controller="myCtrl" >
         <div id="bmi" class="row">
             <div class="col-md-6">
-                <form data-ng-submit="listBMI();">
+                <form id="bmi_form" data-ng-submit="listBMI()">
                     <div class="form-group row">
                         <div class="col-sm-2 col-md-6">
                             <label class="" for="name">Your Name <span class="text-danger">*</span></label>
@@ -71,72 +71,29 @@
                         While You weight <b>{{person.weight }}</b>kg and are <b>{{person.height / 100}}</b>m tall
                         <br>
                         Your BMI is:
-                        <b data-ng-class="{'text-danger': person.BMItype === 'underweight' || person.BMItype === 'obesity',
-                                            'text-success': person.BMItype === 'normal',
-                                             'text-warning': person.BMItype === 'overweight'}">
-                            {{person.BMI}}
+                        <b data-ng-class="{'text-danger': person.bmiType === 'underweight' || person.bmiType === 'obesity',
+                                            'text-success': person.bmiType === 'normal',
+                                             'text-warning': person.bmiType === 'overweight'}">
+                            {{person.bmi}}
                         </b>
                         points and You
-                        <b data-ng-class="{'text-danger': person.BMItype === 'underweight' || person.BMItype === 'obesity',
-                                            'text-success': person.BMItype === 'normal',
-                                             'text-warning': person.BMItype === 'overweight'}">
-                            {{person.BMItext}}
-                        </b>
-                        .
+                        <b data-ng-class="{'text-danger': person.bmiType === 'underweight' || person.bmiType === 'obesity',
+                                            'text-success': person.bmiType === 'normal',
+                                             'text-warning': person.bmiType === 'overweight'}">
+                            {{person.bmiText}}
+                        </b>.
                         <br>
                         <br>
                         <b>Tip:</b>
                         <br>
-                        {{person.BMItip}}
+                        {{person.bmiTip}}
                         <hr>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-<script>
-    (function () {
-        'use strict';
-        var app = angular.module("myApp", []);
-        app.controller("myCtrl", function($scope) {
 
-            $scope.table = [];
-            $scope.newPerson = {};
-            $scope.clearList = function myFunc() {
-                $scope.table = [];
-            };
-            $scope.listBMI= function() {
-                $scope.newPerson.BMI = ($scope.newPerson.weight / Math.pow($scope.newPerson.height / 100, 2)).toFixed(2);
-
-                switch (true) {
-                    case $scope.newPerson.BMI <=18.5:
-                        $scope.newPerson.BMItype = 'underweight';
-                        $scope.newPerson.BMItext = 'are Underweight';
-                        $scope.newPerson.BMItip = 'Being underweight is also unhealthy! You must eat more food.';
-                        break;
-                    case $scope.newPerson.BMI > 18.5 && $scope.newPerson.BMI <= 24.9:
-                        $scope.newPerson.BMItype = 'normal';
-                        $scope.newPerson.BMItext = 'have Normal weight';
-                        $scope.newPerson.BMItip = 'Good work! Keep eating healthy and exercising!';
-                        break;
-                    case $scope.newPerson.BMI >=25 && $scope.newPerson.BMI < 29.9:
-                        $scope.newPerson.BMItype = 'overweight';
-                        $scope.newPerson.BMItext = 'are Overweight';
-                        $scope.newPerson.BMItip = 'It is a bit worrisome. Try to do more exercise and watch what You eat.';
-                        break;
-                    case $scope.newPerson.BMI > 30:
-                        $scope.newPerson.BMItype = 'obesity';
-                        $scope.newPerson.BMItext = 'are Obese';
-                        $scope.newPerson.BMItip = 'That is very unhealthy! Fix your eating habits and start exercising!';
-                        break;
-                }
-                $scope.table.push($scope.newPerson);
-                $scope.newPerson = {};
-            };
-        });
-    })();
-
-</script>
-
+<script src="scripts/app.js"></script>
 </body>
 </html>
