@@ -9,8 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "mongodb": "^3.1.10",
-    "restify": "^6.3.4"
+    "restify": "^6.3.4",
+    "restify-cors-middleware": "^1.1.1"
   }
 }

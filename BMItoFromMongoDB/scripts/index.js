@@ -1,6 +1,9 @@
 var MongoClient = require('mongodb').MongoClient;
 var restify = require('restify');
 var crypto = require('crypto');
+var corsMiddleware = require('restify-cors-middleware');
+var mongo = require('mongodb');
+
 
 /**
  * Calculates the MD5 hash of a string.
@@ -15,16 +18,8 @@ function md5(string) {
 var url = 'mongodb://localhost:27017';
 
 var collections = {
-    values: {
-        id: 'values'
-    },
-    people: {
-        id: 'people',
-        name: 'name',
-        weight: '',
-        height: '',
-        bmi: '',
-    }
+    values: 'values',
+    people: 'people'
 };
 
 function connect(callback) {
@@ -55,34 +50,79 @@ function get(collection, callback) {
     });
 }
 
+function put(_id, newObj, collection, callback) {
+    connect(function(dbo, client) {
+        return dbo.collection(collection).update(
+            {"_id": new mongo.ObjectID(_id)},
+            newObj,
+            function(err, result) {
+                if (err) throw err;
+                callback();
+                client.close();
+            }
+        );
+    });
+}
+
 var server = restify.createServer();
 server.use(restify.plugins.bodyParser());
 
-server.get('/values', function(req, resp, next) {
-    get(collections.values.id, function(data) {
-        resp.send(data);
-        next();
-    });
-
+var cors = corsMiddleware({
+    origins: ['*']
+})
+server.use(cors.actual);
+server.opts(/.*/, function(req, res, next) {
+    res.header('Access-Control-Allow-Methods', req.header('Access-Control-Request-Method'))
+    res.header('Access-Control-Allow-Headers', req.header('Access-Control-Request-Headers'))
+    res.send(200)
+    return next()
 });
 
-server.post('/values', function(req, resp, next) {
+server.post('/api/people', function(req, resp, next) {
     let body = req.body;
+
     let counter = 0;
     try {
-        for (let i = 0; i < body.length; i++) {
-            add(body[i], collections.values.id);
-            counter++;
-        }
+        // TODO validation
+        add(body, collections.people);
+        counter++;
     } catch (err) {
         console.log(err);
     }
 
-    resp.end('Items inserted: ' + counter);
+    resp.end('items added: ' + counter);
     next();
 });
 
+server.put('/api/people/:id', function(req, resp, next) {
+    let _id = req.params.id;
+    let body = JSON.parse(req.body);
 
+    let counter = 0;
+    try {
+        // TODO validation
+        put(_id, body, collections.people, function() {
+            counter++;
+            resp.end('items updated: ' + counter);
+            next();
+        });
+
+    } catch (err) {
+        console.log(err);
+    }
+});
+
+server.get('/api/people', function(req, resp, next) {
+    try {
+        get(collections.people, function (result) {
+            console.log(result);
+            resp.send(result);
+            next();
+        });
+    } catch (err) {
+        console.log(err);
+    }
+});
 
 
 
