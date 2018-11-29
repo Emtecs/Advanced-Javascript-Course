@@ -78,7 +78,7 @@
                 $scope.table = personsArr;
 
                 setTimeout(function() {
-                    $scope.showPage = true
+                    $scope.showPage = true;
                     $scope.$apply();
                 });
             });
