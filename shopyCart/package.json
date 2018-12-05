@@ -1,0 +1,35 @@
+{
+  "name": "shopycart",
+  "version": "1.0.0",
+  "description": "DB try",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild": "mkdir dist\\scripts && copy src \"D:\\Projects\\Advanced-Javascript-Course\\shopyCart\\dist\"",
+    "build": "browserify src/scripts/app.js -o dist/scripts/bundle.js -t [ babelify ]",
+    "prestart": "npm run build",
+    "start": "cd dist && http-server",
+    "watch": "npm-watch"
+  },
+  "author": "KS",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babelify": "^8.0.0",
+    "browserify": "^14.5.0",
+    "http-server": "^0.10.0",
+    "npm-watch": "^0.3.0"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "dependencies": {
+    "@uirouter/angularjs": "^1.0.12",
+    "angular": "^1.6.8",
+    "domready": "^1.0.8",
+    "mongodb": "^3.1.10"
+  }
+}

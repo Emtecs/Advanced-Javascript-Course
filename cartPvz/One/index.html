@@ -1,0 +1,48 @@
+<html ng-app="myApp">
+<head>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular-animate.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+    <script src="index.js"></script>
+    <link href="main.css" rel="stylesheet">
+</head>
+
+<body class="container" ng-controller="myController">
+    <div class="container-fluid">
+        <h1>Welcome</h1>
+        <div class="row">
+            <table class="table">
+                <tr>
+                    <th>Category</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th class="qty">Qty</th>
+                    <th>Total</th>
+                </tr>
+                <tr class="animate-repeat" ng-repeat="item in inventory">
+                    <td>{{ item.category }}</td>
+                    <td>{{ item.description }}</td>
+                    <td ng-class="{ 'on-sale' : item.onSale }">{{ item.price | currency }}</td>
+                    <td><input type="number" ng-model="item.qty" class="qty"></td>
+                    <td>{{ item.qty * item.price | currency }}</td>
+                    <td>
+                        <button class="btn-primary" ng-click="addItem(item)">Add to Cart</button></td>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <h2>Your Cart:</h2>
+            <ul>
+                <li class="animate-repeat" ng-repeat="item in cart">
+                    <span>{{ item.qty + ' x ' + item.description + ' = ' + (getCost(item) | currency) }}</span>
+                    <button class="btn-danger btn-xs" ng-click="removeItem(item);">Remove Item</button>
+                    </br>
+                    </br>
+                </li>
+            </ul>
+            <h3>Total: {{ getTotal() | currency }}</h3>
+            <button class="btn-danger" ng-click="clearCart();">Clear Cart</button>
+        </div>
+    </div>
+</body>
+</html>

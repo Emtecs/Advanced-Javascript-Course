@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" data-ng-app="beerApp">
+<head>
+    <meta charset="UTF-8">
+    <title>My Beer Shop</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet"
+                  integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+                  crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link href="styles/main.css" rel="stylesheet">
+</head>
+<body data-ng-controller="beerCtrl">
+    <header>
+        <nav id="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">The Beer Bar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                </ul>
+                <form class="form-inline my-2 my-lg-0">
+                    <button class="btn btn-success" type="button" data-toggle="modal" data-target="#cart_modal">Shopping <i class="fab fa-opencart"></i></button>
+                </form>
+            </div>
+        </nav>
+</header>
+    <div id="main_container" class="container-fluid">
+        <div class="beer-create-remove-btn-div">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#beer_modal">Create New Beer Type</button>
+            <button class="btn btn-warning">Edit Beer Type</button>
+            <button class="btn btn-danger">Remove Beer Type</button>
+        </div>
+        <div id="content_container" class="container">
+            <h1 class="text-center">Hello and Welcome to THE BEER shop!</h1>
+            <h3 class="text-center">Choose Your Beer!</h3>
+
+            <table id="beer_table" class="table table-striped table-dark text-center">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Beer name</th>
+                        <th scope="col">Beer type</th>
+                        <th scope="col">Beer Style/Color</th>
+                        <th scope="col">Beer Strength in %</th>
+                        <th scope="col">Price in $</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr data-ng-repeat="item in beer">
+                    <td class="text-capitalize">{{ item.name }}</td>
+                    <td>{{ item.type }}</td>
+                    <td>{{ item.style }}</td>
+                    <td>{{ item.strength }}</td>
+                    <td>{{ item.price | currency }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-success" data-ng-click="addItem(item)" data-toggle="tooltip" data-placement="top" title="Added">Add to Cart</button>
+                    </td>
+                </tr>
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Alexander Keiths Ipa</td>-->
+                        <!--<td>Ale</td>-->
+                        <!--<td>Amber, India Pale</td>-->
+                        <!--<td>5.0%</td>-->
+                        <!--<td>4.00 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">all or nothing hopfenweis</td>-->
+                        <!--<td>Ale</td>-->
+                        <!--<td>Golden wheat beer</td>-->
+                        <!--<td>5.1%</td>-->
+                        <!--<td>3.20 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Amsterdam downtown brown</td>-->
+                        <!--<td>Ale</td>-->
+                        <!--<td>Brown Dark</td>-->
+                        <!--<td>5.0%</td>-->
+                        <!--<td>2.70 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Upper canada dark ale</td>-->
+                        <!--<td>Ale</td>-->
+                        <!--<td>Dark</td>-->
+                        <!--<td>5.0%</td>-->
+                        <!--<td>3.50 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Big rock pilsner</td>-->
+                        <!--<td>Lager</td>-->
+                        <!--<td>Light</td>-->
+                        <!--<td>4.9%</td>-->
+                        <!--<td>2.00 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Guinness pub draught</td>-->
+                        <!--<td>Stout</td>-->
+                        <!--<td>Dark</td>-->
+                        <!--<td>4.2%</td>-->
+                        <!--<td>3.80 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Sleeman fine porter</td>-->
+                        <!--<td>Stout Porter</td>-->
+                        <!--<td>Brown</td>-->
+                        <!--<td>5.5%</td>-->
+                        <!--<td>3.00 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Dragon stout</td>-->
+                        <!--<td>Stout</td>-->
+                        <!--<td>Dark brown/black</td>-->
+                        <!--<td>7.5%</td>-->
+                        <!--<td>4.70 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">San miguel premium lager</td>-->
+                        <!--<td>Lager</td>-->
+                        <!--<td>Medium Light</td>-->
+                        <!--<td>4.8%</td>-->
+                        <!--<td>2.80 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Wellington imperial stout</td>-->
+                        <!--<td>Stout</td>-->
+                        <!--<td>Black</td>-->
+                        <!--<td>8.0%</td>-->
+                        <!--<td>7.00$</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Wernesgruner pils</td>-->
+                        <!--<td>Lager</td>-->
+                        <!--<td>Golden</td>-->
+                        <!--<td>4.9%</td>-->
+                        <!--<td>4.20 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Poppers cran ice</td>-->
+                        <!--<td>Malt</td>-->
+                        <!--<td>Fruit (light red)</td>-->
+                        <!--<td>7.0%</td>-->
+                        <!--<td>6.50 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">The last strawberry wit</td>-->
+                        <!--<td>Ale</td>-->
+                        <!--<td>Light Orange</td>-->
+                        <!--<td>4.9%</td>-->
+                        <!--<td>1.60 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Yanjing beer</td>-->
+                        <!--<td>Lager</td>-->
+                        <!--<td>Light</td>-->
+                        <!--<td>4.5%</td>-->
+                        <!--<td>1.90 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Yanjing beer</td>-->
+                        <!--<td>Lager</td>-->
+                        <!--<td>Light</td>-->
+                        <!--<td>4.5%</td>-->
+                        <!--<td>1.90 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Yanjing beer</td>-->
+                        <!--<td>Lager</td>-->
+                        <!--<td>Light</td>-->
+                        <!--<td>4.5%</td>-->
+                        <!--<td>1.90 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Yanjing beer</td>-->
+                        <!--<td>Lager</td>-->
+                        <!--<td>Light</td>-->
+                        <!--<td>4.5%</td>-->
+                        <!--<td>1.90 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td class="text-capitalize">Yanjing beer</td>-->
+                        <!--<td>Lager</td>-->
+                        <!--<td>Light</td>-->
+                        <!--<td>4.5%</td>-->
+                        <!--<td>1.90 $</td>-->
+                        <!--<td>-->
+                            <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <span class="col-md-6">Hello There!</span>
+                <span class="col-md-6 text-right">Copyright 2018</span>
+            </div>
+        </div>
+    </footer>
+    <!--Start Shopping cart Modal-->
+    <div class="modal fade" id="cart_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="">Your Shopping Cart</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-dark text-center">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Beer name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Cost</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-ng-repeat="item in cart">
+                                <td class="text-capitalize">{{ item.name }}</td>
+                                <td>{{ item.price | currency }}</td>
+                                <td>{{ item.quantity }}</td>
+                                <td>{{ item.quantity * item.price | currency }}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-warning" data-ng-click="subtractItem(item)">-1</button>
+                                    <button class="btn btn-sm btn-outline-danger" data-ng-click="removeItem(item)">Remove</button>
+                                    <button class="btn btn-sm btn-outline-success" data-ng-click="plusItem(item)">+1</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-right">
+                        Total Price: {{ getTotal() | currency }}
+                        <br>
+                        Tax included.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-outline-secondary" data-ng-click="clearCart();">Clear cart</button>
+                        <button type="button" class="btn btn-success">Buy all items in the cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End Shopping cart Modal-->
+    <!--Start create new beer modal-->
+    <div class="modal fade" id="beer_modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Your New Beer Creator</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form data-ng-submit="createBeer()">
+                        <div class="form-group row">
+                            <label for="beerName" class="col-sm-3 col-form-label">Beer Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="beerName" class="form-control" id="beerName" placeholder="Beer Name" required data-ng-model="newBeer.name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="beerType" class="col-sm-3 col-form-label">Beer Type</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="beerType" class="form-control" id="beerType" placeholder="Beer Type" required data-ng-model="newBeer.type">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="beerStyle" class="col-sm-3 col-form-label">Beer Style/Color</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="beerStyle" class="form-control" id="beerStyle" placeholder="Beer Style/Color" required data-ng-model="newBeer.style">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="beerStr" class="col-sm-3 col-form-label">Beer Strength in %</label>
+                            <div class="col-sm-3">
+                                <input type="number" name="beerStr" class="form-control" id="beerStr" placeholder="Strength in %" required data-ng-model="newBeer.strength">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="beerPrice" class="col-sm-3 col-form-label">Beer Price in $</label>
+                            <div class="col-sm-3">
+                                <input type="number" name="beerPrice" class="form-control" id="beerPrice" placeholder="Price in $" required data-ng-model="newBeer.price">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--End create new beer modal-->
+<script src="src/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+
+h1 {
+    padding: 20px 0;
+}
+#main_container {
+    background-color: black;
+}
+#content_container {
+    background-color: white;
+}
+footer {
+    background-color: black;
+    color:white;
+    padding: 20px 0;
+}
+.beer-create-remove-btn-div {
+    padding: 20px;
+}

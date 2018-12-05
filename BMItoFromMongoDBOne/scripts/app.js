@@ -40,11 +40,9 @@
             $scope.newPerson = {};
         };
 
-
         /* Start edit person */
         //.....
         /* End edit person */
-
 
 
         function savePersonToDB(person) {

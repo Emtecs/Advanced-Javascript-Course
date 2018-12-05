@@ -1,0 +1,19 @@
+body {
+    margin: 20px;
+    padding: 20px 40px;
+}
+
+h1 {
+    text-align: center;
+}
+
+h4 {
+    text-align: center;
+}
+.on-sale {
+    color: red;
+}
+
+.qty {
+    width: 60px;
+}
