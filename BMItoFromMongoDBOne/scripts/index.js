@@ -117,7 +117,7 @@ server.post('/api/people', function(req, resp, next) {
 });
 server.put('/api/people/:id', function(req, resp, next) {
     let _id = req.params.id;
-    let body = JSON.parse(req.body);
+    let body = req.body;
 
     let counter = 0;
     try {

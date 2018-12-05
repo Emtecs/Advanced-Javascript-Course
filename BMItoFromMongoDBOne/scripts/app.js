@@ -6,44 +6,43 @@
         $scope.showPage = false;
         $scope.table = [];
         $scope.newPerson = {};
+        $scope.editablePerson = null;
         $scope.clearList = function myFunc() {
             $scope.table = [];
         };
         $scope.listBMI= function() {
-            $scope.newPerson.bmi = ($scope.newPerson.weight / Math.pow($scope.newPerson.height / 100, 2)).toFixed(2);
-
-            switch (true) {
-                case $scope.newPerson.bmi <=18.5:
-                    $scope.newPerson.bmiType = 'underweight';
-                    $scope.newPerson.bmiText = 'are Underweight';
-                    $scope.newPerson.bmiTip = 'Being underweight is unhealthy! You must eat more food.';
-                    break;
-                case $scope.newPerson.bmi > 18.5 && $scope.newPerson.bmi <= 24.9:
-                    $scope.newPerson.bmiType = 'normal';
-                    $scope.newPerson.bmiText = 'have Normal weight';
-                    $scope.newPerson.bmiTip = 'Good work! Keep eating healthy and exercising!';
-                    break;
-                case $scope.newPerson.bmi >=25 && $scope.newPerson.bmi < 29.9:
-                    $scope.newPerson.bmiType = 'overweight';
-                    $scope.newPerson.bmiText = 'are Overweight';
-                    $scope.newPerson.bmiTip = 'It is a bit worrisome. Try to do more exercise and watch what You eat.';
-                    break;
-                case $scope.newPerson.bmi > 30:
-                    $scope.newPerson.bmiType = 'obesity';
-                    $scope.newPerson.bmiText = 'are Obese';
-                    $scope.newPerson.bmiTip = 'That is very unhealthy! Fix your eating habits and start exercising!';
-                    break;
-            }
+           calcBMI($scope.newPerson);
             $scope.table.push($scope.newPerson);
-
             savePersonToDB($scope.newPerson);
             $scope.newPerson = {};
         };
 
-        /* Start edit person */
-        //.....
-        /* End edit person */
+        function calcBMI(obj) {
+            obj.bmi = (obj.weight / Math.pow(obj.height / 100, 2)).toFixed(2);
 
+            switch (true) {
+                case obj.bmi <=18.5:
+                    obj.bmiType = 'underweight';
+                    obj.bmiText = 'are Underweight';
+                    obj.bmiTip = 'Being underweight is unhealthy! You must eat more food.';
+                    break;
+                case obj.bmi > 18.5 && obj.bmi <= 24.9:
+                    obj.bmiType = 'normal';
+                    obj.bmiText = 'have Normal weight';
+                    obj.bmiTip = 'Good work! Keep eating healthy and exercising!';
+                    break;
+                case obj.bmi >=25 && obj.bmi < 29.9:
+                    obj.bmiType = 'overweight';
+                    obj.bmiText = 'are Overweight';
+                    obj.bmiTip = 'It is a bit worrisome. Try to do more exercise and watch what You eat.';
+                    break;
+                case obj.bmi > 30:
+                    obj.bmiType = 'obesity';
+                    obj.bmiText = 'are Obese';
+                    obj.bmiTip = 'That is very unhealthy! Fix your eating habits and start exercising!';
+                    break;
+            }
+        }
 
         function savePersonToDB(person) {
             function success(response) {
@@ -63,21 +62,34 @@
             }).then(success, error);
         }
 
-        function updateExsitingPersonInDB(person) {
+        /* Start edit person */
+        $scope.edit = function(person){
+            $scope.editablePerson = person;
+            $('#editModal').modal('show');
+        };
+        /* End edit person */
+
+        $scope.updateExsitingPersonInDB = function() {
             function success(response) {
-                // ...
+                $scope.editablePerson = null;
+                $('#editModal').modal('hide');
+                alert('Yay. Update completed.');
             }
             function error(response) {
                 console.log(response);
             }
+            calcBMI($scope.editablePerson);
+            let preparedPersonObjForUpdate = angular.copy($scope.editablePerson);
+            delete preparedPersonObjForUpdate._id;
+
             $http({
-                url: "http://localhost:8080/api/people/" + person._id,
+                url: "http://localhost:8080/api/people/" + $scope.editablePerson._id,
                 dataType: "json",
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                data: JSON.stringify(person)
+                data: angular.toJson(preparedPersonObjForUpdate)
             }).then(success, error);
         }
 
