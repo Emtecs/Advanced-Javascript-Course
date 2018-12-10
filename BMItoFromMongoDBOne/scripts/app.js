@@ -91,7 +91,7 @@
                 },
                 data: angular.toJson(preparedPersonObjForUpdate)
             }).then(success, error);
-        }
+        };
 
         function deletePeopleFromDB(person) {
             function success(response) {
