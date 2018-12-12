@@ -67,40 +67,10 @@
                             <button class="btn btn-sm btn-success" data-ng-click="addItem(item)" data-toggle="tooltip" data-placement="top" title="Added">Add to Cart</button>
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-warning" ng-click="edit(item)"><i class="fas fa-pencil-alt"></i></a>
-                            <a class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteBeerModal"><i class="far fa-trash-alt"></i></a>
+                            <button class="btn btn-sm btn-warning" ng-click="edit(item)"><i class="fas fa-pencil-alt"></i></button>
+                            <button class="btn btn-sm btn-danger" ng-click="deleteBeer(item)"><i class="far fa-trash-alt"></i></button>
                         </td>
                     </tr>
-                    <!--<tr>-->
-                    <!--<td class="text-capitalize">Alexander Keiths Ipa</td>-->
-                    <!--<td>Ale</td>-->
-                    <!--<td>Amber, India Pale</td>-->
-                    <!--<td>5.0%</td>-->
-                    <!--<td>4.00 $</td>-->
-                    <!--<td>-->
-                    <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
-                    <!--</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                    <!--<td class="text-capitalize">all or nothing hopfenweis</td>-->
-                    <!--<td>Ale</td>-->
-                    <!--<td>Golden wheat beer</td>-->
-                    <!--<td>5.1%</td>-->
-                    <!--<td>3.20 $</td>-->
-                    <!--<td>-->
-                    <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
-                    <!--</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                    <!--<td class="text-capitalize">Amsterdam downtown brown</td>-->
-                    <!--<td>Ale</td>-->
-                    <!--<td>Brown Dark</td>-->
-                    <!--<td>5.0%</td>-->
-                    <!--<td>2.70 $</td>-->
-                    <!--<td>-->
-                    <!--<button class="btn btn-sm btn-success">Add to Cart</button>-->
-                    <!--</td>-->
-                    <!--</tr>-->
                     <!--<tr>-->
                     <!--<td class="text-capitalize">Upper canada dark ale</td>-->
                     <!--<td>Ale</td>-->
@@ -347,13 +317,13 @@
                         <div class="form-group row">
                             <label for="beerStr" class="col-sm-3 col-form-label">Beer Strength in %</label>
                             <div class="col-sm-3">
-                                <input type="number" name="beerStr" class="form-control" id="beerStr" placeholder="Strength in %" required data-ng-model="newBeer.strength">
+                                <input type="number" name="beerStr" class="form-control" id="beerStr" step="0.01" placeholder="Strength in %" required data-ng-model="newBeer.strength">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="beerPrice" class="col-sm-3 col-form-label">Beer Price in $</label>
                             <div class="col-sm-3">
-                                <input type="number" name="beerPrice" class="form-control" id="beerPrice" placeholder="Price in $" required data-ng-model="newBeer.price">
+                                <input type="number" name="beerPrice" class="form-control" id="beerPrice" step="0.01" placeholder="Price in $" required data-ng-model="newBeer.price">
                             </div>
                         </div>
                     </form>
@@ -379,37 +349,37 @@
                 <div class="modal-body">
                     <form id="editBeerForm" data-ng-submit="updateBeer()">
                         <div class="form-group row">
-                            <label for="beerName" class="col-sm-3 col-form-label">Beer Name</label>
+                            <label for="edited_beerName" class="col-sm-3 col-form-label">Beer Name</label>
                             <div class="col-sm-9">
                                 <input type="text" name="beerName" class="form-control" id="edited_beerName" placeholder="Beer Name" data-ng-model="editedBeer.name">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="beerType" class="col-sm-3 col-form-label">Beer Type</label>
+                            <label for="edited_beerType" class="col-sm-3 col-form-label">Beer Type</label>
                             <div class="col-sm-9">
                                 <input type="text" name="beerType" class="form-control" id="edited_beerType" placeholder="Beer Type" data-ng-model="editedBeer.type">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="beerStyle" class="col-sm-3 col-form-label">Beer Style/Color</label>
+                            <label for="edited_beerStyle" class="col-sm-3 col-form-label">Beer Style/Color</label>
                             <div class="col-sm-9">
                                 <input type="text" name="beerStyle" class="form-control" id="edited_beerStyle" placeholder="Beer Style/Color" data-ng-model="editedBeer.style">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="beerStr" class="col-sm-3 col-form-label">Beer Strength in %</label>
+                            <label for="edited_beerStr" class="col-sm-3 col-form-label">Beer Strength in %</label>
                             <div class="col-sm-3">
                                 <input type="number" name="beerStr" class="form-control" id="edited_beerStr" placeholder="Strength in %" data-ng-model="editedBeer.strength">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="beerQuantity" class="col-sm-3 col-form-label">Beer Quantity</label>
+                            <label for="edited_beerQuantity" class="col-sm-3 col-form-label">Beer Quantity</label>
                             <div class="col-sm-3">
                                 <input type="number" name="beerQuantity" class="form-control" id="edited_beerQuantity" value="1" disabled data-ng-model="editedBeer.quantity">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="beerPrice" class="col-sm-3 col-form-label">Beer Price in $</label>
+                            <label for="edited_beerPrice" class="col-sm-3 col-form-label">Beer Price in $</label>
                             <div class="col-sm-3">
                                 <input type="number" name="beerPrice" class="form-control" id="edited_beerPrice" placeholder="Price in $" data-ng-model="editedBeer.price">
                             </div>
@@ -425,20 +395,21 @@
     </div>
     <!--End Edit new beer modal-->
     <!-- Start Delete Beer Modal -->
-    <div id="deleteBeerModal" class="modal fade">
+    <div id="deleteBeerModal" class="modal fade" tabindex="-1" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="delete_form" data-ng-submit="deleteBeer()">
+                <form id="delete_form" data-ng-submit="delBeer(toDelBeer)">
                     <div class="modal-header">
                         <h4 class="modal-title">Do you want to delete beer?</h4>
                     </div>
                     <div class="modal-body">
+                        <h5 data-ng-model="toDelBeer.name">The Beer Named : {{toDelBeer.name}}</h5>
                         <p>Are you sure you want to delete this tasty beer from data-base?</p>
                         <p class="text-danger"><small>This action cannot be undone!</small></p>
                     </div>
                     <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                        <input type="submit" class="btn btn-danger" value="Delete">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
                     </div>
                 </form>
             </div>

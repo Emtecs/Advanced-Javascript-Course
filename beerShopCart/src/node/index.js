@@ -55,7 +55,7 @@ function put(_id, newObj, collection, callback) {
 function del(ids, collection, callback) {
     connect(function(dbo, client) {
 
-        dbo.collection("beers").deleteOne({_id: new MONGO.ObjectID(_id)}, function(err, obj) {
+        dbo.collection("beers").deleteOne({_id: new MONGO.ObjectID(ids[0])}, function(err, obj) {
             if (err) throw err;
             console.log("Beer deleted");
             callback();
@@ -128,17 +128,16 @@ server.put('/api/beers/:id', function(req, resp, next) {
 });
 server.del('/api/beers', function(req, resp, next) {
     let ids = req.body;
-
     try {
         del(ids, collections.beers, function() {
-            resp.send('');
+            resp.end('Beers deleted' + ids.length);
             next();
         });
     } catch (err) {
         console.log(err);
     }
-
 });
+
 
 server.listen(8080, function() {
     console.log('Listening on 8080');

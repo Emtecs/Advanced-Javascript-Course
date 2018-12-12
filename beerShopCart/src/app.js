@@ -145,22 +145,29 @@
         };
         /* end EDIT */
         /* start DELETE */
-        $scope.deleteBeer = function(item) {
+        $scope.deleteBeer = function(item){
+            $scope.toDelBeer = item;
+            $('#deleteBeerModal').modal('show');
+        };
+        $scope.delBeer = function(item) {
             console.log(item);
+            console.log($scope.beerList);
             function success(response) {
-                alert('Beer is deleted. Sad. Was it not tasty?..');
+                $('#deleteBeerModal').modal('hide');
+                console.log('Beer is deleted. Sad. Was it not tasty?..');
+                    $scope.beerList.splice(item, 1);
             }
             function error(response) {
                 console.log(response);
             }
             $http({
-                url: "http://localhost:8080/api/people/" + item._id,
+                url: "http://localhost:8080/api/beers",
                 dataType: "json",
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                data: JSON.stringify(item)
+                data: angular.toJson([item._id])
             }).then(success, error);
         }
         /* end DELETE */
