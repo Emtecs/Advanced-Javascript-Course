@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="app">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="node_modules/angular/angular.min.js"></script>
+</head>
+<body>
+    <div class="container" ng-controller="HelloWorldController">
+        <div class="row">
+            <div class="col-md-12">
+                <form ng-submit="uploadFileToActivity()">
+                    <div class="form-group">
+                        <label for="file">Choose File</label>
+                        <input type="file" id="file" class="form-control" multiple>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+<script>
+    angular.module('app', []);
+    angular.module('app')
+        .service('fileUploadService', function ($http) {
+            // var kintamasis = 0;
+            return {
+                postFiles: postFiles3000,
+                // variable: kintamasis
+            };
+
+            function postFiles3000(filesToUpload, callback) {
+                let formData = new FormData();
+                formData.append('file', filesToUpload[0]);
+                return $http.post('http://localhost:8080/uploadFiles', formData, {
+                    headers: {'Content-Type': undefined},
+                    transformResponse: angular.identity
+                }).then(
+                    (response) => {
+                        alert('Hurray!');
+                        console.log(response);
+                        callback();
+                    },
+                    (xhr) => {
+                        alert(xhr.status);
+                    });
+            }
+        })
+        .controller('HelloWorldController', function ($scope, fileUploadService) {
+            var fileToUpload = null;
+            $scope.uploadableFile = null;
+
+            $scope.handleFileInput = function (files) {
+                fileToUpload = files.item(0);
+                console.log(fileToUpload);
+            }
+
+            $scope.uploadFileToActivity = function () {
+                var elm = document.getElementById('file');
+                var files = elm.files;
+
+                if (!files.length) {
+                    alert("Please select file before submitting...");
+                    return;
+                }
+                fileUploadService.postFiles(files, function (response) {
+                    // ...
+                });
+            }
+        });
+</script>
+</body>
+</html>

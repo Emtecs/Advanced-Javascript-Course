@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="file">Choose File</label>
+                <input type="file"
+                       id="file"
+                       (change)="handleFileInput($event.target.files)">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>
+</body>
+</html>

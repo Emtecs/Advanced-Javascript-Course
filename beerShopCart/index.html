@@ -323,7 +323,7 @@
                         <div class="form-group row">
                             <label for="beerPrice" class="col-sm-3 col-form-label">Beer Price in $</label>
                             <div class="col-sm-3">
-                                <input type="number" name="beerPrice" class="form-control" id="beerPrice" step="0.01" placeholder="Price in $" required data-ng-model="newBeer.price">
+                                <input type="number" name="beerPrice" class="form-control" id="beerPrice" step="0.10" placeholder="Price in $" required data-ng-model="newBeer.price">
                             </div>
                         </div>
                     </form>
@@ -369,7 +369,7 @@
                         <div class="form-group row">
                             <label for="edited_beerStr" class="col-sm-3 col-form-label">Beer Strength in %</label>
                             <div class="col-sm-3">
-                                <input type="number" name="beerStr" class="form-control" id="edited_beerStr" placeholder="Strength in %" data-ng-model="editedBeer.strength">
+                                <input type="number" step="0.02" name="beerStr" class="form-control" id="edited_beerStr" placeholder="Strength in %" data-ng-model="editedBeer.strength">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -381,7 +381,7 @@
                         <div class="form-group row">
                             <label for="edited_beerPrice" class="col-sm-3 col-form-label">Beer Price in $</label>
                             <div class="col-sm-3">
-                                <input type="number" name="beerPrice" class="form-control" id="edited_beerPrice" placeholder="Price in $" data-ng-model="editedBeer.price">
+                                <input type="number" step="0.20" name="beerPrice" class="form-control" id="edited_beerPrice" placeholder="Price in $" data-ng-model="editedBeer.price">
                             </div>
                         </div>
                     </form>
