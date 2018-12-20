@@ -16,3 +16,12 @@ footer {
 .beer-create-remove-btn-div {
     padding: 20px;
 }
+.text-red {
+    color: red;
+}
+.hidden {
+    visibility: hidden;
+}
+.visible {
+    visibility: visible;
+}

@@ -64,6 +64,18 @@ function del(ids, collection, callback) {
     });
 }
 
+function strengthAndPriceValueValidation(strength, collection, callback) {
+    connect(function (dbo, client) {
+        dbo.collection(collection).find({}).toArray(function (err, result) {
+            if (err) throw err;
+            callback(result);
+            client.close();
+        });
+    });
+}
+
+
+
 var server = RESTIFY.createServer();
 server.pre((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -98,17 +110,30 @@ server.get('/api/beers', function(req, resp, next) {
 });
 server.post('/api/beers', function(req, resp, next) {
     let body = req.body;
-
-    let counter = 0;
+    var responseObj = {};
     try {
-        add(body, collections.beers);
-        counter++;
-    } catch (err) {
-        console.log(err);
-    }
+        strengthAndPriceValueValidation(body, collections.beers, function () {
+            try {
+                if (body.strength > 20) {
+                    throw new Error('Beer is too strong');
 
-    resp.end('Beers added: ' + counter);
-    next();
+                } else if (body.price < 2) {
+                    throw new Error('Cannot sell less than 2 dollar or we will not earn anything!');
+
+                }
+                add(body, collections.beers);
+                responseObj = {name: "success"};
+            }
+            catch(err){
+                responseObj = {name: "error", msg: err.toString()};
+            }
+            resp.end(JSON.stringify(responseObj));
+            next();
+        });
+    }
+    catch(e){
+        console.log(e.toString());
+    }
 });
 server.put('/api/beers/:id', function(req, resp, next) {
     let _id = req.params.id;

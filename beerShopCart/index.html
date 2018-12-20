@@ -40,7 +40,7 @@
         <div id="content_container" class="container">
             <h1 class="text-center">Hello and Welcome to THE BEER shop!</h1>
             <div data-ng-show="!showPage">
-                <h1 class="text-center">Checking all our <i class="fas fa-beer"></i> ir the cellar <i class="fas fa-spinner fa-spin"></i></h1>
+                <h1 class="text-center">Checking all our <i class="fas fa-beer"></i> in the cellar <i class="fas fa-spinner fa-spin"></i></h1>
             </div>
             <div data-ng-show="showPage">
                 <h3 class="text-center">Choose Your Beer!</h3>
@@ -67,8 +67,8 @@
                             <button class="btn btn-sm btn-success" data-ng-click="addItem(item)" data-toggle="tooltip" data-placement="top" title="Added">Add to Cart</button>
                         </td>
                         <td>
-                            <button class="btn btn-sm btn-warning" ng-click="edit(item)"><i class="fas fa-pencil-alt"></i></button>
-                            <button class="btn btn-sm btn-danger" ng-click="deleteBeer(item)"><i class="far fa-trash-alt"></i></button>
+                            <button class="btn btn-sm btn-warning" data-ng-click="edit(item)"><i class="fas fa-pencil-alt"></i></button>
+                            <button class="btn btn-sm btn-danger" data-ng-click="deleteBeer(item)"><i class="far fa-trash-alt"></i></button>
                         </td>
                     </tr>
                     <!--<tr>-->
@@ -323,7 +323,7 @@
                         <div class="form-group row">
                             <label for="beerPrice" class="col-sm-3 col-form-label">Beer Price in $</label>
                             <div class="col-sm-3">
-                                <input type="number" name="beerPrice" class="form-control" id="beerPrice" step="0.10" placeholder="Price in $" required data-ng-model="newBeer.price">
+                                <input type="number" name="beerPrice" class="form-control is-invalid" id="beerPrice" step="0.10" placeholder="Price in $" required data-ng-model="newBeer.price">
                             </div>
                         </div>
                     </form>
