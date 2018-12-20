@@ -111,21 +111,34 @@ server.get('/api/beers', function(req, resp, next) {
 server.post('/api/beers', function(req, resp, next) {
     let body = req.body;
     var responseObj = {};
+    let errors = [];
     try {
         strengthAndPriceValueValidation(body, collections.beers, function () {
             try {
                 if (body.strength > 20) {
-                    throw new Error('Beer is too strong');
-
-                } else if (body.price < 2) {
-                    throw new Error('Cannot sell less than 2 dollar or we will not earn anything!');
+                    errors.push({
+                        prop: 'strength',
+                        error: 'Beer is too strong'
+                    });
 
                 }
+                if (body.price < 2) {
+                    errors.push({
+                        prop: 'price',
+                        error: 'Cannot sell less than 2 dollar or we will not earn anything!'
+                    });
+                }
+                if (errors.length) {
+                    throw new Error('There are some errors...');
+                }
+
+
                 add(body, collections.beers);
                 responseObj = {name: "success"};
             }
             catch(err){
-                responseObj = {name: "error", msg: err.toString()};
+                console.log(err.toString());
+                responseObj = {name: "errors", errors: errors};
             }
             resp.end(JSON.stringify(responseObj));
             next();

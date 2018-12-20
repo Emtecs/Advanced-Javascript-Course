@@ -7,6 +7,8 @@
         $scope.cart = [];
         $scope.beerList = [];
 
+        $scope.saving = false;
+
         $scope.newBeer = {
             name: '',
             type: '',
@@ -41,8 +43,8 @@
             if (found) {
                 if (found.quantity > 1){
                     found.quantity -= 1;
-                }else {
-                    $scope.removeItem();
+                } else {
+                    $scope.removeItem(found);
                 }
             }
         };
@@ -120,6 +122,10 @@
 
         /* end DELETE */
         function saveBeerToDB(item) {
+            if ($scope.saving) {
+                return;
+            }
+            $scope.saving = true;
             function success(response) {
                 console.log(response);
                 if (response.data.name === 'success') {
@@ -127,13 +133,21 @@
                     $scope.newBeer = {};
                     alert('Beer is created. Happy Tasting!');
 
-                } else if (response.data.name === 'error') {
-                    alert(response.data.msg);
-
+                } else if (response.data.name === 'errors') {
+                    item.errors = {};
+                    for (let i = 0; i < response.data.errors.length; i++) {
+                        let errorItem = response.data.errors[i];
+                        console.log(errorItem);
+                        item.errors[errorItem.prop] = errorItem.error;
+                    }
+                    console.log(item.errors);
                 }
+                $scope.saving = false;
             }
             function error(response) {
                 console.log(response);
+                $scope.saving = false;
+
             }
             $http({
                 url: "http://localhost:8080/api/beers",

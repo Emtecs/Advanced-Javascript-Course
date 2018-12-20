@@ -299,38 +299,43 @@
                         <div class="form-group row">
                             <label for="beerName" class="col-sm-3 col-form-label">Beer Name</label>
                             <div class="col-sm-9">
-                                <input type="text" name="beerName" class="form-control" id="beerName" placeholder="Beer Name" required data-ng-model="newBeer.name">
+                                <input type="text" name="beerName" class="form-control" id="beerName" placeholder="Beer Name" required data-ng-model="newBeer.name" ng-disabled="saving">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="beerType" class="col-sm-3 col-form-label">Beer Type</label>
                             <div class="col-sm-9">
-                                <input type="text" name="beerType" class="form-control" id="beerType" placeholder="Beer Type" required data-ng-model="newBeer.type">
+                                <input type="text" name="beerType" class="form-control" id="beerType" placeholder="Beer Type" required data-ng-model="newBeer.type" ng-disabled="saving">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="beerStyle" class="col-sm-3 col-form-label">Beer Style/Color</label>
                             <div class="col-sm-9">
-                                <input type="text" name="beerStyle" class="form-control" id="beerStyle" placeholder="Beer Style/Color" required data-ng-model="newBeer.style">
+                                <input type="text" name="beerStyle" class="form-control" id="beerStyle" placeholder="Beer Style/Color" required data-ng-model="newBeer.style" ng-disabled="saving">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="beerStr" class="col-sm-3 col-form-label">Beer Strength in %</label>
                             <div class="col-sm-3">
-                                <input type="number" name="beerStr" class="form-control" id="beerStr" step="0.01" placeholder="Strength in %" required data-ng-model="newBeer.strength">
+                                <input type="number" name="beerStr" class="form-control" id="beerStr" step="0.01" placeholder="Strength in %" required data-ng-model="newBeer.strength" ng-class="{'is-invalid': newBeer.errors && newBeer.errors.strength}" ng-disabled="saving">
+                                <div class="invalid-feedback" ng-if="newBeer.errors && newBeer.errors.strength">{{newBeer.errors && newBeer.errors.strength ? newBeer.errors.strength : ''}}</div>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="beerPrice" class="col-sm-3 col-form-label">Beer Price in $</label>
                             <div class="col-sm-3">
-                                <input type="number" name="beerPrice" class="form-control is-invalid" id="beerPrice" step="0.10" placeholder="Price in $" required data-ng-model="newBeer.price">
+                                <input type="number" name="beerPrice" class="form-control is-invalid" id="beerPrice" step="0.10" placeholder="Price in $" required data-ng-model="newBeer.price" ng-class="{'is-invalid': newBeer.errors && newBeer.errors.price}" ng-disabled="saving">
+                                <div class="invalid-feedback" ng-if="newBeer.errors && newBeer.errors.price">{{newBeer.errors && newBeer.errors.price ? newBeer.errors.price : ''}}</div>
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-                    <button form="beerForm" type="submit" class="btn btn-success">Create</button>
+                    <button form="beerForm" type="submit" class="btn btn-success">
+                        <span ng-if="!saving">Create</span>
+                        <span ng-if="saving"><i class="fa fa-spinner fa-spin"></i></span>
+                    </button>
                 </div>
             </div>
         </div>
